@@ -17,3 +17,20 @@
   become_method: sudo
   roles:
     - base
+
+- name: Kubernetes Master
+  hosts: master
+  remote_user: pi
+  become: true
+  roles:
+  - role: kubernetes
+    mode: master
+
+- name: Kubernetes Nodes
+  hosts: nodes
+  remote_user: pi
+  become: true
+  roles:
+  - role: kubernetes
+    mode: node
+

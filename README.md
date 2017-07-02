@@ -2,6 +2,7 @@
 
 This project is a fork of a great repository made by [Roland Huß](https://github.com/rhuss):
 [Project31/ansible-kubernetes-openshift-pi3](https://github.com/Project31/ansible-kubernetes-openshift-pi3).
+
 Almost everything here (included large parts of this README) is copied from that repository, I changed just a couple of things in order to better handle my custom configurations.
 
 
@@ -41,11 +42,11 @@ The addresses I have chosen are:
 
 You should be able to SSH into every Pi with user *pirate* and password *hypriot*. Also, if you set up the forwarding on your desktop properly you should be able to ping from within the pi to the outside world. Internet access from the nodes is mandatory for setting up the nodes with Ansible.
 
-## Ansible Playbooks
+## Ansible playbooks
 
 After this initial setup is done, the next step is to initialize the base system with Ansible. You will need Ansible 2 installed on your desktop (e.g. `brew install ansible` when running on OS X)
 
-### Ansible Configuration
+### Ansible configuration
 
 1. Checkout the Ansible playbooks:
 
@@ -63,21 +64,14 @@ After this initial setup is done, the next step is to initialize the base system
    * **master** IP address of the Master
    * **nodes** All nodes which are not Master
 
-### Init machine-id
+### Configure the cluster
 
-Because of a pecularity of Hypriot OS 1.4 which causes every machine id to be the same,
-`/etc/machine-id` need to be initialized once for each node. This is required later e.g. by
-the Weave overlay network as it calculates its virtual Mac address from this datum.
+Run the deployment with the command:
 
-To do so, call the followin Ansible ad-hoc command:
-
-```
-ansible pis -u pirate -k -i hosts --become -m shell --args "dbus-uuidgen > /etc/machine-id"
-```
-
-Use "hypriot" as password here.
+    ansible-playbook -k -i hosts setup.yml
 
 ## Acknowledgements
 
 [Roland Huß](https://github.com/rhuss) for doing the heavy lifting and creating a project ready to use and easy to deploy.
+
 [Lucas Käldström](https://github.com/luxas) for porting Kubernetes to the Raspberry Pi / ARM.

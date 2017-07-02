@@ -1,0 +1,7 @@
+- name: Create flannel resources
+  template: src=cni/flannel.yml dest=/etc/kubernetes/kube-flannel.yml
+
+- name: Create flannel resources
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  command: kubectl create -f /etc/kubernetes/kube-flannel.yml

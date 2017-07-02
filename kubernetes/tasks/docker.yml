@@ -1,0 +1,16 @@
+- name: Prepare docker expose args for service
+  set_fact:
+    dockerd_extra_args: "{{ '-H tcp://' + inventory_hostname + ':2375' if docker.expose_tcp else '' }}"
+
+- name: Update docker service startup
+  template: src=docker-1.12.service dest=/etc/systemd/system/multi-user.target.wants/docker.service
+  register: result
+  notify:
+    - restart docker
+
+- name: Reload systemd when service definition changed
+  command: systemctl daemon-reload
+  when: result|changed
+
+- name: Notify Docker service right now to restart
+  meta: flush_handlers
