@@ -32,4 +32,33 @@
     src: "/etc/kubernetes/admin.conf"
     dest: "{{ playbook_dir }}/run/"
     flat: true
-  
+
+# GlusterFS
+
+- name: Create glusterfs resource file
+  template: src=glusterfs.yml dest=/etc/kubernetes/glusterfs.yml
+
+- name: Create glusterfs resources
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  command: kubectl create -f /etc/kubernetes/glusterfs.yml
+
+# Heapster
+
+- name: Create heapster resource file
+  template: src=heapster.yml dest=/etc/kubernetes/heapster.yml
+
+- name: Create heapster resources
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  command: kubectl create -f /etc/kubernetes/heapster.yml
+
+# Dashboard
+
+- name: Create dashboard resource file
+  template: src=dashboard.yml dest=/etc/kubernetes/dashboard.yml
+
+- name: Create dashboard resources
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  command: kubectl create -f /etc/kubernetes/dashboard.yml

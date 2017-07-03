@@ -64,7 +64,7 @@ spec:
     spec:
       hostNetwork: true
       nodeSelector:
-        kubernetes.io/hostname: "n1"
+        node-role.kubernetes.io/master: ""
       tolerations:
       - key: "node-role.kubernetes.io/master"
         effect: NoSchedule
