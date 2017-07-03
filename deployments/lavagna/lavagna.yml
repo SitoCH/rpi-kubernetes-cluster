@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lavagna-configmap
+data:
+  DB_DIALECT: 'MYSQL'
+  DB_URL: 'jdbc:mysql://mysql/lavagna?useSSL=false'
+  DB_USER: 'root'
+  DB_PASS: '1122345'
+  SPRING_PROFILE: 'prod'
+  CONTEXT_PATH: '/lavagna'
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: lavagna
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: lavagna
+        visualize: "true"
+    spec:
+      containers:
+      - name: lavagna
+        image: localhost:5000/digitalfondue/lavagna:rpi-1.1-M6
+        imagePullPolicy: Always
+        readinessProbe:
+          initialDelaySeconds: 60
+          periodSeconds: 20
+          timeoutSeconds: 5
+          httpGet:
+            path: /
+            port: 8080
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_DIALECT
+          valueFrom:
+            configMapKeyRef:
+              name: lavagna-configmap
+              key: DB_DIALECT
+        - name: DB_URL
+          valueFrom:
+            configMapKeyRef:
+              name: lavagna-configmap
+              key: DB_URL
+        - name: DB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: lavagna-configmap
+              key: DB_USER
+        - name: DB_PASS
+          valueFrom:
+            configMapKeyRef:
+              name: lavagna-configmap
+              key: DB_PASS
+        - name: SPRING_PROFILE
+          valueFrom:
+            configMapKeyRef:
+              name: lavagna-configmap
+              key: SPRING_PROFILE
+        - name: CONTEXT_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: lavagna-configmap
+              key: CONTEXT_PATH
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lavagna
+  labels:
+    app: lavagna
+    visualize: "true"
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: lavagna
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: lavagna
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /lavagna/
+        backend:
+          serviceName: lavagna
+          servicePort: 8080
