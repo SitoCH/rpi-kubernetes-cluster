@@ -11,6 +11,7 @@
 
 - name: Setup Raspberry Pi Base system
   hosts: pis
+  any_errors_fatal: true
   gather_facts: yes
   remote_user: pirate
   become: true
@@ -20,6 +21,7 @@
 
 - name: Kubernetes Master
   hosts: master
+  any_errors_fatal: true
   remote_user: pi
   become: true
   roles:
@@ -28,6 +30,7 @@
 
 - name: Kubernetes Nodes
   hosts: nodes
+  any_errors_fatal: true
   remote_user: pi
   become: true
   roles:

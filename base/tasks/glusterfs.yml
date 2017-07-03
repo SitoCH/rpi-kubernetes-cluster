@@ -18,7 +18,7 @@
 
 - name: Create GlusterFS volumes
   shell: gluster volume info {{item.1}} || 
-         gluster volume create {{item.1}} replica 2 transport tcp {{gluster_bricks.results[item.0].stdout}} force
+         gluster volume create {{item.1}} replica {{ groups['nodes'] | length }} transport tcp {{gluster_bricks.results[item.0].stdout}} force
   with_indexed_items:
     - "{{ groups['volumes'] }}"
   when: inventory_hostname == groups['nodes'][0]
