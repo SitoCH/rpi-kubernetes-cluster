@@ -2,6 +2,9 @@
 - name: Add and update packages
   include: apt.yml
 
+- name: Setup GlusterFS
+  include: glusterfs.yml
+
 - name: Add Swapfile
   include: swap.yml
   vars:
@@ -25,6 +28,11 @@
   ignore_errors: true
 
 - name: Waiting for servers
-  become: no
+  wait_for:
+    host: "{{ inventory_hostname }}"
+    port: 22
+    state: started
+    delay: 5
+    timeout: 600
   delegate_to: localhost
-  wait_for: host={{ inventory_hostname }} state=started delay=10 timeout=300
+  become: no

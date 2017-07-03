@@ -1,5 +1,5 @@
 - name: update machine-id
-  command: dbus-uuidgen > /etc/machine-id
+  shell: dbus-uuidgen > /etc/machine-id
 
 - name: Add cgroup for Memory limits to bootparams
   lineinfile:
@@ -55,7 +55,8 @@
 - name: Set hostname
   hostname: name="{{ name }}"
 
-  # Needed only for hypriot
+# Needed only for hypriot
+
 - stat: path=/boot/device-init.yaml
   register: device_init_file
 - name: Set hostname in boot configuration
@@ -72,22 +73,3 @@
 
 - name: Restart hostname
   shell: "hostnamectl set-hostname {{ name }}"
-
-- name: Create dir /var/gluster-fs/volume1
-  file: path=/var/gluster-fs/volume1 state=directory mode=0775
-
-- name: Create dir /var/gluster-fs/volume2
-  file: path=/var/gluster-fs/volume2 state=directory mode=0775
-
-- name: Create dir /var/gluster-fs/volume3
-  file: path=/var/gluster-fs/volume3 state=directory mode=0775
-
-- name: Create dir /var/gluster-fs/volume4
-  file: path=/var/gluster-fs/volume4 state=directory mode=0775
-
-- name: Create dir /var/gluster-fs/volume5
-  file: path=/var/gluster-fs/volume5 state=directory mode=0775
-
-- name: Peer probe every Raspberry using GlusterFS
-  command: gluster peer probe {{ hostvars[item].ansible_default_ipv4.address }}
-  with_items: groups['pis']

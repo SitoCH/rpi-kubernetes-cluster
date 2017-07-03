@@ -14,11 +14,11 @@
   apt_key: url=https://packages.cloud.google.com/apt/doc/apt-key.gpg
 
 - name: Temp
-  # Try to pick up 1.6 builds. Switch over to '-unstable' if targeting latest releases
+  # Try to pick up stable builds. Switch over to '-unstable' if targeting latest releases
   apt_repository: repo='deb http://apt.kubernetes.io/ kubernetes-xenial-stable main' state=absent
 
 - name: Add Kubernetes Repo
-  # Try to pick up 1.6 builds. Switch over to '-unstable' if targeting latest releases
+  # Try to pick up stable builds. Switch over to '-unstable' if targeting latest releases
   apt_repository: repo='deb http://apt.kubernetes.io/ kubernetes-xenial main' state=present
 
 - name: Pin Docker to a version {{ version.docker_version }} (the latest supported by Kubernetes)

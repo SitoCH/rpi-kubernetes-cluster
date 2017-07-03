@@ -1,0 +1,27 @@
+- name: Create GlusterFS volumes directories 
+  file: path=/var/gluster-fs/volume{{item}} state=directory mode=0775
+  with_items: [1, 2, 3, 4, 5]
+
+- name: Configure GlusterFS peers
+  shell: gluster peer probe {{item}}
+  with_items:
+    - "{{ groups['pis'] }}"
+  when: (inventory_hostname == groups['pis'][0]) and (item != groups['pis'][0])
+
+- name: Build GlusterFS bricks list
+  shell: echo {{groups['pis'] | join(',')}} | sed "s%,%:/var/gluster-fs/volume{{item}} %g; s%$%:/var/gluster-fs/volume{{item}}%"
+  register: gluster_bricks
+  with_items: [1, 2, 3, 4, 5]
+  when: inventory_hostname == groups['pis'][0]
+
+- name: Create GlusterFS volumes
+  shell: gluster volume info volume{{item}} || 
+         gluster volume create volume{{item}} replica 2 transport tcp {{gluster_bricks.results[item - 1].stdout}} force
+  with_items: [1, 2, 3, 4, 5]
+  when: inventory_hostname == groups['pis'][0]
+
+- name: Start GlusterFS volumes
+  shell: 'gluster volume info volume{{item}} | grep "Status: Started" || 
+          gluster volume start volume{{item}}'
+  with_items: [1, 2, 3, 4, 5]
+  when: inventory_hostname == groups['pis'][0]
