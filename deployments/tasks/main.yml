@@ -6,7 +6,7 @@
 - name: Create glusterfs resources
   environment:
     KUBECONFIG: /etc/kubernetes/admin.conf
-  command: kubectl create -f /etc/kubernetes/glusterfs.yml
+  command: kubectl apply -f /etc/kubernetes/glusterfs.yml
 
 # Heapster
 
@@ -16,7 +16,7 @@
 - name: Create heapster resources
   environment:
     KUBECONFIG: /etc/kubernetes/admin.conf
-  command: kubectl create -f /etc/kubernetes/heapster.yml
+  command: kubectl apply -f /etc/kubernetes/heapster.yml
 
 # Dashboard
 
@@ -26,7 +26,7 @@
 - name: Create dashboard resources
   environment:
     KUBECONFIG: /etc/kubernetes/admin.conf
-  command: kubectl create -f /etc/kubernetes/dashboard.yml
+  command: kubectl apply -f /etc/kubernetes/dashboard.yml
 
 # Traefik
 
@@ -36,4 +36,4 @@
 - name: Create traefik resources
   environment:
     KUBECONFIG: /etc/kubernetes/admin.conf
-  command: kubectl create -f /etc/kubernetes/traefik.yml
+  command: kubectl apply -f /etc/kubernetes/traefik.yml
