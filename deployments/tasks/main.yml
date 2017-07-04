@@ -28,7 +28,7 @@
     KUBECONFIG: /etc/kubernetes/admin.conf
   command: kubectl create -f /etc/kubernetes/dashboard.yml
 
-  # Traefik
+# Traefik
 
 - name: Create traefik resource file
   template: src=traefik.yml dest=/etc/kubernetes/traefik.yml

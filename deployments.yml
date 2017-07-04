@@ -1,0 +1,8 @@
+- name: Deployments
+  hosts: master
+  any_errors_fatal: true
+  remote_user: pi
+  become: true
+  roles:
+  - role: deployments
+
