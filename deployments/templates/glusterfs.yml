@@ -26,7 +26,7 @@ spec:
 apiVersion: v1
 kind: Endpoints
 metadata:
-  name: glusterfs-cluster-system
+  name: glusterfs-cluster
   namespace: kube-system
 subsets:
 - addresses:
@@ -40,7 +40,7 @@ subsets:
 apiVersion: v1
 kind: Service
 metadata:
-  name: glusterfs-cluster-system
+  name: glusterfs-cluster
   namespace: kube-system
 spec:
   ports:
