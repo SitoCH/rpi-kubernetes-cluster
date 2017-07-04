@@ -70,6 +70,12 @@ Run the deployment with the command:
 
     ansible-playbook -k -i hosts setup.yml
 
+### Deploy default applications
+
+Once that the cluster is up and running this playbook will deploy GlusterFS endpoints, Heapster, Dashboard and Traefik:
+
+    ansible-playbook -k -i hosts deployments.yml
+
 ## Acknowledgements
 
 [Roland Huß](https://github.com/rhuss) for doing the heavy lifting and creating a project ready to use and easy to deploy.
