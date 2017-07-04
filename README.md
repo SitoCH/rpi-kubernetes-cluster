@@ -63,6 +63,7 @@ After this initial setup is done, the next step is to initialize the base system
    * **pis** contains all members of your cluster where one is marked as "master" in the field `host_extra`. This group will be added to every node in its `/etc/hosts`. **It is important that one host is marked as "master", since the playbooks rely on this host alias for accessing the API server**.
    * **master** IP address of the Master
    * **nodes** All nodes which are not Master
+   * **volumes** Volumes to create on GlusterFS
 
 ### Configure the cluster
 

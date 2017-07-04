@@ -7,8 +7,14 @@
 [master]
 192.168.23.200
 
-
 [nodes]
 192.168.23.201
 192.168.23.202
 192.168.23.203
+
+[volumes]
+volume-1
+volume-2
+volume-3
+volume-4
+volume-5
