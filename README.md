@@ -3,8 +3,15 @@
 This project is a fork of a great repository made by [Roland Huß](https://github.com/rhuss):
 [Project31/ansible-kubernetes-openshift-pi3](https://github.com/Project31/ansible-kubernetes-openshift-pi3).
 
-Almost everything here (included large parts of this README) is copied from that repository, I changed just a couple of things in order to better handle my custom configurations.
+Almost everything here (included some parts of this README) is copied from that repository, I changed just a couple of things in order to better handle my custom configurations.
 
+### Features
+
+* From zero to a running cluster with a single Ansible playbook
+* WiFi networking with Flannel CNI
+* Cluster aware storage available out of the box using GlusterFS (replicated on every node)
+* Dashboard and Heapster deployed by default along with Traefik (a reverse proxy that exposes your containers to the outside world)
+* Manual deployments for the Docker registry, MySQL, whoami and Lavagna.
 
 ## Setup the hardware
 
@@ -30,8 +37,6 @@ It is now time to configure your WLAN router. This of course depends on which ro
 
 First of all you need to setup the SSID and password. Use the same credentials with which you have configured your images.
 
-My setup is, that I span a private network `192.168.23.0/24` for the Pi cluster.
-
 The addresses I have chosen are:
 
 | IP                                    | Device          |
@@ -40,7 +45,13 @@ The addresses I have chosen are:
 | `192.168.23.181` ... `192.168.23.184` | Raspberry Pis   |
 
 
-You should be able to SSH into every Pi with user *pirate* and password *hypriot*. Also, if you set up the forwarding on your desktop properly you should be able to ping from within the pi to the outside world. Internet access from the nodes is mandatory for setting up the nodes with Ansible.
+You should be able to SSH into every Pi with user *pirate* and password *hypriot*. Internet access from the nodes is mandatory for setting up the nodes with Ansible.
+
+After that you checked every Raspberry you can configure the router using these steps detailed by [Sergio Sisternes](https://twitter.com/sesispla):
+
+* Go to *DHCP > Client list* and take note of the MAC addresses
+* Go to *DHCP > Address reservation*, and set an static (Reserved) IP address to each Raspberry
+* Go to *Quick Setup* and configure the router in the *hotspot mode* so it can connect itself to another router and share Internet with the Raspberries
 
 ## Ansible playbooks
 
@@ -77,29 +88,39 @@ Once that the cluster is up and running this playbook will deploy GlusterFS endp
 
     ansible-playbook -k -i hosts deployments.yml
 
-### Manual deployment
+#### Traefik
 
-For convenience useful deployments can be found in the directory *manual-deployments*, please note that you must install the Registry in order to use other manual deployments.
+Traefik is a reverse proxy that exposes your containers to the outside world. The management dashboard is available at `http://master-node:8080/`
 
-#### Registry
+## Manual deployments
+
+For convenience useful deployments can be found in the directory *manual-deployments*, please note that you must install the Registry in order to use other manual deployments because the images will be centrally cached.
+
+### Registry
 
 This container installs a Docker registry that acts as a pass-trough cache, this way only the first node will download an image from Internet and all the other requests will be served from "inside" the cluster.
 
     kubectl --kubeconfig run/admin.conf create -f manual-deployments/registry/registry.yml
 
-#### Who am I
+### Who am I
 
 Simple container that deploys on 3 nodes a website that prints it's container ID.
 
-Thanks to Traefik you can access it on *http://master-node/whoami/*
+Thanks to Traefik you can access it on `http://master-node/whoami/`
 
     kubectl --kubeconfig run/admin.conf create -f manual-deployments/whoami/whoami.yml
 
-#### MySQL
+### MySQL
 
 MySQL database server with persistent storage.
 
     kubectl --kubeconfig run/admin.conf create -f manual-deployments/mysql/mysql.yml
+
+### Lavagna
+
+Lavagna is an open-source issue/project management tool designed for small teams (another open source project of mine made with 2 friends).
+
+    kubectl --kubeconfig run/admin.conf create -f manual-deployments/lavagna/lavagna.yml
 
 
 
@@ -108,3 +129,5 @@ MySQL database server with persistent storage.
 [Roland Huß](https://github.com/rhuss) for doing the heavy lifting and creating a project ready to use and easy to deploy.
 
 [Lucas Käldström](https://github.com/luxas) for porting Kubernetes to the Raspberry Pi / ARM.
+
+[Sergio Sisternes](https://twitter.com/sesispla) for providing a great guide on how to setup the WiFi router.

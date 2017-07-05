@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: lavagna
-        image: localhost:5000/digitalfondue/lavagna:rpi-1.1-M6
+        image: 127.0.0.1:32500/digitalfondue/lavagna:rpi-1.1-M6
         imagePullPolicy: Always
         readinessProbe:
           initialDelaySeconds: 60
