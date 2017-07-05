@@ -26,13 +26,6 @@ spec:
       - name: lavagna
         image: 127.0.0.1:32500/digitalfondue/lavagna:rpi-1.1-M6
         imagePullPolicy: Always
-        readinessProbe:
-          initialDelaySeconds: 60
-          periodSeconds: 20
-          timeoutSeconds: 5
-          httpGet:
-            path: /
-            port: 8080
         ports:
         - containerPort: 8080
         env:
