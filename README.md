@@ -77,6 +77,32 @@ Once that the cluster is up and running this playbook will deploy GlusterFS endp
 
     ansible-playbook -k -i hosts deployments.yml
 
+### Manual deployment
+
+For convenience useful deployments can be found in the directory *manual-deployments*, please note that you must install the Registry in order to use other manual deployments.
+
+#### Registry
+
+This container installs a Docker registry that acts as a pass-trough cache, this way only the first node will download an image from Internet and all the other requests will be served from "inside" the cluster.
+
+    kubectl --kubeconfig run/admin.conf create -f manual-deployments/registry/registry.yml
+
+#### Who am I
+
+Simple container that deploys on 3 nodes a website that prints it's container ID.
+
+Thanks to Traefik you can access it on *http://master-node/whoami/*
+
+    kubectl --kubeconfig run/admin.conf create -f manual-deployments/whoami/whoami.yml
+
+#### MySQL
+
+MySQL database server with persistent storage.
+
+    kubectl --kubeconfig run/admin.conf create -f manual-deployments/mysql/mysql.yml
+
+
+
 ## Acknowledgements
 
 [Roland Huß](https://github.com/rhuss) for doing the heavy lifting and creating a project ready to use and easy to deploy.

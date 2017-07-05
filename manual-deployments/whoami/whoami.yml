@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: whoami
-        image: hypriot/rpi-whoami
+        image: 127.0.0.1:32500/hypriot/rpi-whoami
         readinessProbe:
           initialDelaySeconds: 20
           periodSeconds: 10

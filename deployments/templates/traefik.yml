@@ -74,10 +74,9 @@ spec:
         name: traefik-ingress-controller
         resources:
           limits:
-            cpu: 200m
             memory: 30Mi
           requests:
-            cpu: 100m
+            cpu: 200m
             memory: 20Mi
         ports:
         - name: http

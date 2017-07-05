@@ -21,6 +21,13 @@ spec:
     requests:
       storage: 1Gi
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-configmap
+data:
+  PASSWORD: '1122345'
+---
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
@@ -32,12 +39,14 @@ spec:
         app: mysql
     spec:
       containers:
-      - image: hypriot/rpi-mysql
+      - image: 127.0.0.1:32500/hypriot/rpi-mysql
         name: mysql
         env:
-          # Use secret in real usage
         - name: MYSQL_ROOT_PASSWORD
-          value: "1122345"
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-configmap
+              key: PASSWORD
         ports:
         - containerPort: 3306
           name: mysql
