@@ -1,6 +1,6 @@
 ## About
 
-This project is a fork of a great repository made by [Roland Huß](https://github.com/rhuss):
+This project is largely based on of a great repository made by [Roland Huß](https://github.com/rhuss):
 [Project31/ansible-kubernetes-openshift-pi3](https://github.com/Project31/ansible-kubernetes-openshift-pi3).
 
 Almost everything here (included some parts of this README) is copied from that repository, I changed just a couple of things in order to better handle my custom configurations.
