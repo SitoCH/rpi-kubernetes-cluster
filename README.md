@@ -8,7 +8,8 @@ Almost everything here (included some parts of this README) is copied from that 
 ### Features
 
 * From zero to a running cluster with a single Ansible playbook
-* WiFi networking with Flannel CNI
+* Kubernetes 1.7
+* WiFi networking and Flannel as CNI
 * Cluster aware storage available out of the box using GlusterFS (replicated on every node)
 * Dashboard and Heapster deployed by default along with Traefik (a reverse proxy that exposes your containers to the outside world)
 * Manual deployments for the Docker registry, MySQL, whoami and Lavagna.
@@ -18,10 +19,10 @@ Almost everything here (included some parts of this README) is copied from that 
 Most of the installation is automated by using [Ansible](https://www.ansible.com/).
 Thanks to [Hypriot](https://github.com/hypriot/image-builder-rpi/releases/latest) images a complete headless setup is possible.
 
-1. Download the latest Hypriots image and store it as `hypriot.zip` :
-
-        curl -L https://github.com/hypriot/image-builder-rpi/releases/download/v1.4.0/hypriotos-rpi-v1.4.0.img.zip -o hypriot.zip
-
+1. Download the latest Hypriots image and store it as `hypriot.zip`:
+```
+curl -L https://github.com/hypriot/image-builder-rpi/releases/download/v1.5.0/hypriotos-rpi-v1.5.0.img.zip -o hypriot.zip
+```
 2. Install Hypriots' [flash](https://github.com/hypriot/flash) installer script. Follow the directions on the installation page.
 
 3. Insert you Micro-SD card in your Desktop computer (via an adapter possibly) and run
