@@ -21,13 +21,13 @@ Thanks to [Hypriot](https://github.com/hypriot/image-builder-rpi/releases/latest
 
 1. Download the latest Hypriots image and store it as `hypriot.zip`:
 ```
-curl -L https://github.com/hypriot/image-builder-rpi/releases/download/v1.5.0/hypriotos-rpi-v1.5.0.img.zip -o hypriot.zip
+curl -L https://github.com/hypriot/image-builder-rpi/releases/download/v1.5.0/hypriotos-rpi-v1.5.0.img.zip
 ```
-2. Install Hypriots' [flash](https://github.com/hypriot/flash) installer script. Follow the directions on the installation page.
+2. Install Hypriot's [flash](https://github.com/hypriot/flash) installer script. Follow the directions on the installation page.
 
 3. Insert you Micro-SD card in your Desktop computer (via an adapter possibly) and run
 ```
-flash --hostname n1 --ssid "mysid" --password "secret" hypriot.zip
+flash --hostname n1 --ssid "mysid" --password "secret" hypriotos-rpi-v1.5.0.img.zip
 ```
    You will be asked to which device to write. Check this carefully, otherwise you could destroy your Desktop OS if selecting the the wrong device. Typically its something like `/dev/disk2` on OS X, but depends on the number of hard drives you have.
 4. Repeat step 2. to 3. for each Micro SD card. Please adapt the hostname before each round to **n2**, **n3**, **n4**.
