@@ -1,0 +1,27 @@
+---
+- name: Update the cluster
+  hosts: pis
+  any_errors_fatal: true
+  gather_facts: no
+  remote_user: pirate
+  become: true
+  become_method: sudo
+  tasks:
+    - name: Update the APT cache
+      raw: apt-get update
+    - name: Upgrade every available package
+      raw: apt-get upgrade -y
+    - name: Reboot
+      shell: sleep 2 && reboot
+      async: 1
+      poll: 0
+      ignore_errors: true
+    - name: Waiting for servers
+      wait_for:
+        host: "{{ inventory_hostname }}"
+        port: 22
+        state: started
+        delay: 5
+        timeout: 600
+      delegate_to: localhost
+      become: no

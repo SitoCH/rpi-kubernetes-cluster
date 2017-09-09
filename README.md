@@ -83,6 +83,12 @@ Run the deployment with the command:
 
     ansible-playbook -k -i hosts setup.yml
 
+### Update the nodes
+
+After some time this playbook may be useful to update the nodes:
+
+    ansible-playbook -k -i hosts apt-upgrade-cluster.yml
+
 ### Deploy default applications
 
 Once that the cluster is up and running this playbook will deploy GlusterFS endpoints, Heapster, Dashboard and Traefik:
