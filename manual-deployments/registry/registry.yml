@@ -35,10 +35,9 @@ spec:
       containers:
       - name: registry
         image: sito/rpi-docker-registry
-        imagePullPolicy: Always
         resources:
           limits:
-            memory: 100Mi
+            memory: 150Mi
         env:
         - name: REGISTRY_HTTP_ADDR
           value: :5000
@@ -96,7 +95,7 @@ spec:
         image: kubernetesonarm/kube-registry-proxy-arm:0.4
         resources:
           limits:
-            memory: 50Mi
+            memory: 75Mi
         env:
         - name: REGISTRY_HOST
           value: kube-registry.kube-system.svc.cluster.local
