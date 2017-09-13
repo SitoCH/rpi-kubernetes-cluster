@@ -1,0 +1,52 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dotnet
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: dotnet
+        visualize: "true"
+    spec:
+      containers:
+      - name: dotnet
+        image: 127.0.0.1:32500/sito/rpi-dotnet-2.0:0.3
+        readinessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 2
+          httpGet:
+            path: /
+            port: 5000
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dotnet
+  labels:
+    app: dotnet
+    visualize: "true"
+spec:
+  ports:
+  - port: 5005
+    targetPort: 5000
+  selector:
+    app: dotnet
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: dotnet
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /dotnet/
+        backend:
+          serviceName: dotnet
+          servicePort: 5005
