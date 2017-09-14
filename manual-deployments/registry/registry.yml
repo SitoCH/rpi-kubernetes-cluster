@@ -35,6 +35,7 @@ spec:
       containers:
       - name: registry
         image: sito/rpi-docker-registry
+        imagePullPolicy: IfNotPresent
         resources:
           limits:
             memory: 150Mi

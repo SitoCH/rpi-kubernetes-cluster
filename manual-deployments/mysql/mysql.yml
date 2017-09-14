@@ -40,6 +40,7 @@ spec:
     spec:
       containers:
       - image: 127.0.0.1:32500/hypriot/rpi-mysql
+        imagePullPolicy: IfNotPresent
         name: mysql
         env:
         - name: MYSQL_ROOT_PASSWORD

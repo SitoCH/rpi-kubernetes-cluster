@@ -70,7 +70,8 @@ spec:
         effect: NoSchedule
       serviceAccountName: traefik-ingress-controller
       containers:
-      - image: luxas/traefik:v1.3.0
+      - image: luxas/traefik:v1.3.5   
+        imagePullPolicy: IfNotPresent
         name: traefik-ingress-controller
         resources:
           limits:

@@ -12,7 +12,8 @@ spec:
     spec:
       containers:
       - name: dotnet
-        image: 127.0.0.1:32500/sito/rpi-dotnet-2.0:0.3
+        image: 127.0.0.1:32500/sito/rpi-dotnet-2.0:0.4
+        imagePullPolicy: IfNotPresent
         readinessProbe:
           initialDelaySeconds: 10
           periodSeconds: 2

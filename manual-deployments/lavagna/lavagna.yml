@@ -25,6 +25,7 @@ spec:
       containers:
       - name: lavagna
         image: 127.0.0.1:32500/digitalfondue/lavagna:rpi-1.1-M6
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
         env:

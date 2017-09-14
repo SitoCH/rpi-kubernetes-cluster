@@ -13,6 +13,7 @@ spec:
       containers:
       - name: whoami
         image: 127.0.0.1:32500/hypriot/rpi-whoami
+        imagePullPolicy: IfNotPresent
         readinessProbe:
           initialDelaySeconds: 20
           periodSeconds: 10
