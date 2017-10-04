@@ -5,12 +5,6 @@
 - name: Setup GlusterFS
   include: glusterfs.yml
 
-- name: Add Swapfile
-  include: swap.yml
-  vars:
-    swap_file_path: "/swapfile"
-    swap_file_size: "1G"
-
 - name: Setup system parameters (boot, hosts, timzone)
   include: system.yml
 

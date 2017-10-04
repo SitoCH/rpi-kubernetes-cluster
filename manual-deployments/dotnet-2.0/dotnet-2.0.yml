@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: dotnet
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: dotnet
-        image: 127.0.0.1:32500/sito/rpi-dotnet-2.0:0.4
+        image: 127.0.0.1:32500/sito/rpi-dotnet-2.0:0.5
         imagePullPolicy: IfNotPresent
         readinessProbe:
           initialDelaySeconds: 10

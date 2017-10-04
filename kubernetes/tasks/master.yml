@@ -1,10 +1,31 @@
+- name: Check for an already generated token
+  become: no
+  stat: path={{ playbook_dir }}/run/kubeadm-token.txt
+  delegate_to: localhost
+  register: kubeadm_token
+
+- block:
+  - name: Create a token from master
+    command: kubeadm token generate
+    register: kubeadm_gen_token
+  - name: Copy token to local file 'kubernetes-token'
+    become: no
+    copy: content={{ kubeadm_gen_token.stdout }} dest={{ playbook_dir }}/run/kubeadm-token.txt
+    delegate_to: localhost
+  when: kubeadm_token.stat.exists == false and mode == "master"
+
+- name: Register token as fact
+  set_fact:
+    kubeadm_token: "{{ lookup('file', playbook_dir + '/run/kubeadm-token.txt') }}"
+
 - name: Copy init file for kubeadm
   template: src=kubeadm.yml dest=/etc/kubernetes/kubeadm.yml mode=0755
 
+- name: Run kubeadm reset on master
+  command: kubeadm reset 
+  register: kubeadm_reset
+
 - name: Run kubeadm init on master
-#  environment:
-    # Temporary until 1.6 is released
-#    KUBE_HYPERKUBE_IMAGE: luxas/hyperkube:v1.6.0-and-PR-42911
   command: kubeadm init --config /etc/kubernetes/kubeadm.yml
   register: kubeadm_init
 
@@ -32,3 +53,4 @@
     src: "/etc/kubernetes/admin.conf"
     dest: "{{ playbook_dir }}/run/"
     flat: true
+  

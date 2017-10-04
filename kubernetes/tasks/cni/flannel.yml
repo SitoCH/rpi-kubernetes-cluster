@@ -1,4 +1,4 @@
-- name: Create flannel resource file
+- name: Create flannel resources
   template: src=cni/flannel.yml dest=/etc/kubernetes/kube-flannel.yml
 
 - name: Create flannel resources
