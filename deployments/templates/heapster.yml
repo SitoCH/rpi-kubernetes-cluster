@@ -11,7 +11,7 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: system:heapster
+  name: cluster-admin
 subjects:
 - kind: ServiceAccount
   name: heapster
@@ -33,7 +33,11 @@ spec:
         k8s-app: heapster
         task: monitoring
     spec:
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
       tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
       - key: beta.kubernetes.io/arch
         value: arm
         effect: NoSchedule
