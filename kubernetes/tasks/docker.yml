@@ -4,7 +4,7 @@
 - name: Downgrade docker
   apt:
     state: present
-    name: docker-engine={{ docker.version }}
+    name: docker-ce={{ docker.version }}
     autoremove: yes
     force: yes
 
@@ -13,7 +13,7 @@
     dockerd_extra_args: "{{ '-H tcp://' + inventory_hostname + ':2375' if docker.expose_tcp else '' }}"
 
 - name: Update docker service startup
-  template: src=docker-1.12.service dest=/etc/systemd/system/docker.service
+  template: src=docker.service dest=/etc/systemd/system/docker.service
   register: result
   notify:
     - restart docker
@@ -24,3 +24,9 @@
 
 - name: Notify Docker service right now to restart
   meta: flush_handlers
+
+- name: Set the iptables to FORWARD ACCEPT
+  command: iptables -P FORWARD ACCEPT
+
+- name: Save the iptables
+  command: iptables-save
