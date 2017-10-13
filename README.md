@@ -8,7 +8,7 @@ Almost everything here (included some parts of this README) is copied from that 
 ### Features
 
 * From zero to a running cluster with a single Ansible playbook
-* Kubernetes 1.7
+* Kubernetes 1.8 with Docker 17
 * WiFi networking and Flannel as CNI
 * Cluster aware storage available out of the box using GlusterFS (replicated on every node)
 * Dashboard and Heapster deployed by default along with Traefik (a reverse proxy that exposes your containers to the outside world)
